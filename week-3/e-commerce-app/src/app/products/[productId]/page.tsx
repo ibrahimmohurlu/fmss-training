@@ -1,4 +1,5 @@
 
+import { addProductToCart } from "@/actions/product";
 import { fetchProductById } from "@/data/products/products"
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,9 @@ import Link from "next/link";
 type ProductDetailsPageProps = { params: { productId: string } }
 export default async function ProductDetailPage({ params }: ProductDetailsPageProps) {
     const product = await fetchProductById(params.productId);
+
+    const addProductToCartWithBindedProduct = addProductToCart.bind(null, product)
+
     return (
         <div className="container grid grid-cols-2  mx-auto mt-8">
             <div className="relative w-3/4 aspect-square mx-auto">
@@ -34,7 +38,7 @@ export default async function ProductDetailPage({ params }: ProductDetailsPagePr
                         <Link href={"#reviews"} className="text-xl underline hover:no-underline">{product.reviews.length} Reviews</Link>
                     </div>
                 </div>
-                <form action="" className="flex justify-between">
+                <form action={addProductToCartWithBindedProduct} className="flex justify-between">
                     <div className="inline-flex items-center justify-center gap-2">
                         <label htmlFor="number-input" className="block text-lg font-medium text-gray-900 dark:text-white">Quantity:</label>
                         <input
