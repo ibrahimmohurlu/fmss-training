@@ -16,9 +16,15 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const body = await req.json() as CartItem;
-    userCart.push(body);
-    return NextResponse.json(null, { status: 201 })
+    const { product, quantity } = await req.json() as CartItem;
+    const index = userCart.findIndex(cartItem => cartItem.product.id === product.id);
+    if (index === -1) {
+        userCart.push({ product, quantity });
+        return NextResponse.json(null, { status: 201 })
+    }
+    const oldItem = userCart[index];
+    userCart[index] = { product, quantity: quantity + oldItem.quantity }
+    return NextResponse.json(null, { status: 200 })
 }
 
 export async function PATCH(req: NextRequest) {
@@ -35,7 +41,7 @@ export async function PATCH(req: NextRequest) {
     if (index === -1) {
         return NextResponse.json(null, { status: 404 })
     }
-    
+
     const foundItem = userCart[index];
     userCart[index] = { ...foundItem, quantity: quantity }
     return NextResponse.json(null, { status: 200 })
