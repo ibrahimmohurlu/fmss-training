@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function CartPage() {
-    const { totalItemCount, userCart } = await fetchUserCart();
-    const SHIPMENT_FEE = 75;
+    const { totalItemCount, userCart, originalItemPrice, totalDiscount, shipmentFee, finalPrice } = await fetchUserCart();
+
     return (
         <div className="container mx-auto my-16 space-y-5">
             <div className="container grid grid-cols-3">
@@ -66,20 +66,20 @@ export default async function CartPage() {
                         <h1 className="text-xl font-semibold text-white mb-6">Order Summary</h1>
                         <div className="flex items-center justify-between">
                             <p>Original Price</p>
-                            <p>${0}</p>
+                            <p>${originalItemPrice}</p>
                         </div>
                         <div className="flex items-center justify-between">
                             <p>Discount</p>
-                            <p className="text-green-500">-${0}</p>
+                            <p className="text-green-500">-${totalDiscount}</p>
                         </div>
                         <div className="flex items-center justify-between">
                             <p>Shipment</p>
-                            <p>${SHIPMENT_FEE}</p>
+                            <p>${shipmentFee}</p>
                         </div>
                         <div className="h-px bg-gray-400" />
                         <div className="flex text-white font-semibold items-center justify-between">
                             <p>Total</p>
-                            <p>${0}</p>
+                            <p>${finalPrice}</p>
                         </div>
                         <div className="flex flex-col gap-2 text-base text-white items-center">
                             <button type="button" className="py-3 px-8 bg-blue-600 hover:bg-blue-700 rounded-lg">Proceed to Checkout</button>
