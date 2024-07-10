@@ -1,4 +1,4 @@
-import { clearUserCart, deleteItemFromUserCart } from "@/actions/cart";
+import { clearUserCart, deleteItemFromUserCart, updateItemQuantityByProdcutId } from "@/actions/cart";
 import { fetchUserCart } from "@/data/cart/cart"
 import Image from "next/image";
 import Link from "next/link";
@@ -35,17 +35,21 @@ export default async function CartPage() {
                                         <p className="text-sm font-light">{item.product.brand}</p>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <button type="button" className="bg-gray-800 p-1 rounded-lg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-                                            </svg>
-                                        </button>
+                                        <form method="PATCH" action={updateItemQuantityByProdcutId.bind(null, item.product.id, item.quantity - 1)}>
+                                            <button type="submit" className="bg-gray-700 p-1 rounded-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                         <span className="text-lg">{item.quantity}</span>
-                                        <button type="button" className="bg-gray-800 p-1 rounded-lg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                            </svg>
-                                        </button>
+                                        <form method="PATCH" action={updateItemQuantityByProdcutId.bind(null, item.product.id, item.quantity + 1)}>
+                                            <button type="submit" className="bg-gray-700 p-1 rounded-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     </div>
                                     <div className="text-lg font-semibold">
                                         <p>${item.product.price}</p>

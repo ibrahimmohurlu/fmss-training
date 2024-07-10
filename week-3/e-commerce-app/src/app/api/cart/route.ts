@@ -21,12 +21,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(null, { status: 201 })
 }
 
+export async function PATCH(req: NextRequest) {
+    const body = await req.json();
+    const itemId = parseInt(body.item_id);
+    const quantity = parseInt(body.quantity);
+
+    if (!body.item_id || !body.quantity || quantity < 1) {
+        return NextResponse.json(null, { status: 400 })
+    }
+
+    const index = userCart.findIndex(cartItem => cartItem.product.id === itemId);
+
+    if (index === -1) {
+        return NextResponse.json(null, { status: 404 })
+    }
+    
+    const foundItem = userCart[index];
+    userCart[index] = { ...foundItem, quantity: quantity }
+    return NextResponse.json(null, { status: 200 })
+}
+
 export async function DELETE(req: NextRequest) {
-    const itemId = req.nextUrl.searchParams.get("item_id")
+    const itemId = req.nextUrl.searchParams.get("item_id");
     if (itemId) {
         const index = userCart.findIndex(cartItem => cartItem.product.id.toString() === itemId);
         if (index === -1) {
-            return NextResponse.json(null, { status: 200 })
+            return NextResponse.json(null, { status: 404 })
         }
         userCart.splice(index, 1);
         return NextResponse.json(null, { status: 200 })
