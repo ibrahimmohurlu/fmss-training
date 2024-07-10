@@ -1,3 +1,4 @@
+import { clearUserCart } from "@/actions/cart";
 import { fetchUserCart } from "@/data/cart/cart"
 import Image from "next/image";
 import Link from "next/link";
@@ -8,15 +9,15 @@ export default async function CartPage() {
     return (
         <div className="container mx-auto my-16 space-y-5">
             <div className="container grid grid-cols-3">
-                <div className="flex justify-between col-span-2 mb-8">
+                <form action={clearUserCart} className="flex justify-between col-span-2 mb-8">
                     <h1 className="text-2xl font-bold">Cart</h1>
                     <div className="flex gap-4 items-center">
                         <h1 className="text-xl font-normal">Total Items: {totalItemCount}</h1>
-                        <button type="button" className="bg-red-700 hover:bg-red-800 px-2 py-1 rounded-lg">
+                        <button type="submit" className="bg-red-700 hover:bg-red-800 px-2 py-1 rounded-lg">
                             Clear
                         </button>
                     </div>
-                </div>
+                </form>
                 <div className="col-span-1">{/* This is just a placeholder div */}</div>
                 <div className="flex flex-col gap-4 col-span-2">
 

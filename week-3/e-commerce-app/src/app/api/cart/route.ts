@@ -18,6 +18,17 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     const body = await req.json() as CartItem;
     userCart.push(body);
-    revalidateTag("cart")
     return NextResponse.json(null, { status: 201 })
+}
+
+export async function DELETE(req: NextRequest) {
+    const itemId = req.nextUrl.searchParams.get("item_id")
+    if (itemId) {
+        // const index = userCart.findIndex(cartItem => cartItem.product.id.toString() === itemId);
+        // if (index === -1) {
+        //     return;
+        // }
+    }
+    userCart.length = 0;
+    return NextResponse.json(null, { status: 200 })
 }
