@@ -42,7 +42,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                         type="number"
                         name="quantity"
                         hidden={true}
-                        value={1}
+                        defaultValue={1}
                         required />
                     <span className="text-3xl font-bold text-gray-900 dark:text-white">${product.price}</span>
                     <AddToCartButton />
